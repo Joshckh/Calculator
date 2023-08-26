@@ -28,8 +28,10 @@ function backSpace(array) {
 
 function append(number){
 
-        num2 += number.textContent
+            num2 += number.textContent
+        
     }
+
 
     function operate(numA, numB, operation) {
         switch (operation) {
@@ -50,7 +52,7 @@ function updateDisplay(){
     opSign.textContent = symbol(operator);
     }
 
-function symbol(opChoice){
+function symbol(opChoice){ // show operator sign instead of data-operator 
 
    let choice = "";
     switch(opChoice){
@@ -77,22 +79,48 @@ const minus = (a,b) => a - b;
 const multiply = (a,b) => a * b;
 const divide = (a,b) => a / b;
 
+function rickRoll(){
+    num1 = "Never gonna give you up"
+    operator =""
+    num2 = "Never gonna let you down"
+}
 
 //Buttons
 
 numButton.forEach(button => {
     button.addEventListener('click', () => {
-       append(button);
+    if(num2.includes(".") && button.textContent === "." || num2[0]==="0" && button.textContent === "0")return
+    else{
+        append(button);
         updateDisplay();
+    }
+     
     })
 })
 
 operatorButton.forEach(button => {
     button.addEventListener('click', () => {
-       operator = button.getAttribute('data-operator');
-       num1 = num2;
-       num2 = '';
+    
+    if (num1 != ""){
+        if(num2 === "0" && operator === "divide" || num1 === "0" && operator === "divide"){
+        rickRoll();
         updateDisplay();
+        clear();
+        }
+        else{
+        num1 = parseFloat(num1);
+        num2 = parseFloat(num2);
+        num1 = operate(num1,num2,operator);
+        operator = button.getAttribute('data-operator');
+        num2 = "";
+        updateDisplay();
+        }}
+    else{
+    operator = button.getAttribute('data-operator');
+    num1 = num2;
+    num2 = '';
+        updateDisplay();
+    }
     })
 })
 
@@ -108,15 +136,22 @@ percentButton.addEventListener('click',() =>{
 })
 
 operateButton.addEventListener('click', () =>{
-    numb1 = parseFloat(num1);
-    numb2 = parseFloat(num2);
-    num2 = operate(numb1,numb2,operator);
+    if(num2 === "0" && operator === "divide" || num1 === "0" && operator === "divide"){
+        rickRoll();
+        updateDisplay();
+        clear();
+        }
+        else{
+    num1 = parseFloat(num1);
+    num2 = parseFloat(num2);
+    num2 = operate(num1,num2,operator);
     num1 = num2;
     num2 = "";
     updateDisplay();
+}
 })
 
 backButton.addEventListener('click',() =>{
-    num2.splice(0,-1)
+    num2 = num2.slice(0,-1);
     updateDisplay();
 })
