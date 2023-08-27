@@ -47,6 +47,7 @@ function append(number){
     }
 
 function updateDisplay(){
+
     numB.textContent = num2;
     numA.textContent = num1;
     opSign.textContent = symbol(operator);
@@ -126,8 +127,12 @@ operatorButton.forEach(button => {
 
 
 acButton.addEventListener('click',() =>{
-    clear();
-    updateDisplay();
+    let response = confirm("Are you sure about that ?")
+    if (response){
+        clear();
+        updateDisplay();
+    }
+
 })
 
 percentButton.addEventListener('click',() =>{
